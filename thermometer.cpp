@@ -10,7 +10,7 @@
 
 #include "1wire.hpp"
 
-bool Thermometer::detect() const
+bool Thermometer::reset() const
 {
 	return Wire1{}.reset();
 }

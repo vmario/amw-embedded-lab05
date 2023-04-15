@@ -30,7 +30,7 @@ static void lcdRefresh(const Lcd& lcd)
 
 	lcd.goTo(0, 0);
 
-	if (!thermometer.detect()) {
+	if (!thermometer.reset()) {
 		lcd.write("1-Wire Error :( ");
 		return;
 	}
