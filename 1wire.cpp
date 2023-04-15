@@ -77,6 +77,14 @@ void Wire1::writeBit(bool bit) const
 	}
 }
 
+void Wire1::writeByte(uint8_t byte) const
+{
+	for (uint8_t i{0}; i < 8; ++i) {
+		writeBit(byte & 0x01);
+		byte >>= 1;
+	}
+}
+
 bool Wire1::readBit() const
 {
 	const Wire1Data data{};

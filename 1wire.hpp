@@ -22,6 +22,13 @@ struct Wire1 {
 	void writeBit(bool bit) const;
 	
 	/**
+	 * Wystawia bajt na magistrali.
+	 * 
+	 * @param byte Bajt.
+	 */
+	void writeByte(uint8_t byte) const;
+	
+	/**
 	 * Odczytuje bit z magistrali.
 	 * 
 	 * @return Odczytany bit.
