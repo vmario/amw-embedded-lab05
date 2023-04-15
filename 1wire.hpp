@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include <stdint.h>
+
 /**
  * Sterownik magistrali 1-Wire.
  */
@@ -25,6 +27,13 @@ struct Wire1 {
 	 * @return Odczytany bit.
 	 */
 	bool readBit() const;
+	
+	/**
+	 * Odczytuje bajt z magistrali.
+	 * 
+	 * @return Odczytany bajt.
+	 */
+	uint8_t readByte() const;
 	
 	/**
 	 * Resetuje magistralę.

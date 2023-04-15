@@ -89,6 +89,17 @@ bool Wire1::readBit() const
 	return bit;
 }
 
+uint8_t Wire1::readByte() const
+{
+	uint8_t byte{0};
+	
+	for (uint8_t i{0}; i < 8; ++i) {
+		byte |= readBit() << i;
+	}
+	
+	return byte;
+}
+
 bool Wire1::reset() const
 {
 	const Wire1Data data{};
