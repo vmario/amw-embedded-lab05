@@ -40,7 +40,7 @@ static volatile bool expired; ///< Czy timer ustawił flagę?
  */
 #if defined __AVR_ATmega32A__
 ISR(TIMER0_COMP_vect)
-#elif defined __AVR_ATmega1284P__
+#elif defined(__AVR_ATmega644P__) || defined(__AVR_ATmega1284P__)
 ISR(TIMER0_COMPA_vect)
 #else
 #error Niezdefiniowany typ mikrokontrolera.
@@ -59,7 +59,7 @@ void SystemTick::init() const
 	TCCR0 = TIMER0_CTC | TIMER0_PRESCALER_256;
 	OCR0 = TIMER0_OCR_TICK;
 	TIMSK = _BV(OCIE0);
-#elif defined __AVR_ATmega1284P__
+#elif defined(__AVR_ATmega644P__) || defined(__AVR_ATmega1284P__)
 	TCCR0A = TIMER0_CTC;
 	TCCR0B = TIMER0_PRESCALER_256;
 	OCR0A = TIMER0_OCR_TICK;

@@ -44,5 +44,5 @@ void Lcd::init() const
 	CommandDisplayControl().write();
 	CommandClear().write();
 	CommandEntryMode(ENTRY_MODE_OPTION_INCREMENT).write();
-	CommandDisplayControl(DISPLAY_CONTROL_OPTION_DISPLAY_ON | DISPLAY_CONTROL_OPTION_CURSOR_ON).write();
+	CommandDisplayControl(DISPLAY_CONTROL_OPTION_DISPLAY_ON).write();
 }

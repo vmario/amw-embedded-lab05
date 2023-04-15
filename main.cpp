@@ -8,18 +8,9 @@
 
 #include "lcd.hpp"
 #include "timer.hpp"
+#include "thermometer.hpp"
 
 #include <stdlib.h>
-
-/**
- * Alfabet fonetyczny NATO.
- */
-const char* NATO_PHONETIC_ALPHABET[] = {
-	"Alfa", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel",
-	"India", "Juliett", "Kilo", "Lima", "Mike", "November", "Oscar", "Papa",
-	"Quebec", "Romeo", "Sierra", "Tango", "Uniform", "Victor", "Whiskey",
-	"Xray", "Yankee", "Zulu",
-};
 
 /**
  * Wyświetlenie komunikatu powitalnego.
@@ -27,8 +18,7 @@ const char* NATO_PHONETIC_ALPHABET[] = {
 static void lcdSplash(const Lcd& lcd)
 {
 	lcd.clear();
-	lcd.goTo(0, 0);
-	lcd.write("AMW Embedded Lab");
+	lcd.write("Initializing...");
 }
 
 /**
@@ -36,14 +26,16 @@ static void lcdSplash(const Lcd& lcd)
  */
 static void lcdRefresh(const Lcd& lcd)
 {
-	static uint8_t code;
+	const Thermometer thermometer{};
 
-	lcd.goTo(1, 0);
-	lcd.write(NATO_PHONETIC_ALPHABET[code]);
+	lcd.goTo(0, 0);
 
-	if (++code >= sizeof(NATO_PHONETIC_ALPHABET) / sizeof(NATO_PHONETIC_ALPHABET[0])) {
-		code = 0;
+	if (!thermometer.detect()) {
+		lcd.write("1-Wire Error :( ");
+		return;
 	}
+
+	lcd.write("Thermometer OK  ");
 }
 
 /**
