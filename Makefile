@@ -47,6 +47,7 @@ CXXFLAGS += -Wa,-adhlns=$(<:%.cpp=$(OBJDIR)/%.lst)
 CXXFLAGS += -MD -MP -MF $(DEPDIR)/$(basename $(@F)).d
 LDFLAGS = -mmcu=$(MCU_TARGET)
 LDFLAGS += -Os -flto
+LDFLAGS += -Wl,-u,vfprintf -lprintf_flt -lm 
 LDFLAGS += -Wl,-Map=$(TARGET).map,--cref
 DEFS = -DF_CPU=$(F_CPU)ul
 
