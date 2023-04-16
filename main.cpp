@@ -11,9 +11,10 @@
 #include "thermometer.hpp"
 
 #include <stdlib.h>
+#include <stdio.h>
 
 /**
- * Wyświetlenie komunikatu powitalnego.
+ * Wyświetla komunikat powitalny.
  */
 static void lcdSplash(const Lcd& lcd)
 {
@@ -22,20 +23,49 @@ static void lcdSplash(const Lcd& lcd)
 }
 
 /**
- * Wyświetlanie kolejnych słów z alfatu fonetycznego.
+ * Wyświetla numer seryjny termometru.
+ * 
+ * @param lcd Sterownik LCD.
+ */
+static void printSerialNumber(const Lcd& lcd)
+{
+	RomCode romCode{Thermometer{}.romCode()};
+	char buffer[17] = "0x";
+	for (uint8_t i{0}; i < 7; ++i) {
+		snprintf(buffer + 2 + 2 * i, 3, "%02x", romCode.bytes[i]);
+	}
+	lcd.write(buffer);
+}
+
+/**
+ * Wyświetla temperaturę.
+ * 
+ * @param lcd Sterownik LCD.
+ */
+static void printTemperature(const Lcd& lcd)
+{
+	char buffer[17];
+	snprintf(buffer, sizeof(buffer), "T=%6.2f", 1.0 * Thermometer{}.temperature() / 16);
+	lcd.write(buffer);
+}
+
+/**
+ * Wyświetla pomiar temperatury.
+ * 
+ * @param lcd Sterownik LCD.
  */
 static void lcdRefresh(const Lcd& lcd)
 {
-	const Thermometer thermometer{};
-
-	lcd.goTo(0, 0);
-
-	if (!thermometer.reset()) {
+	if (!Thermometer{}.reset()) {
+		lcd.clear();
 		lcd.write("1-Wire Error :( ");
 		return;
 	}
 
-	lcd.write("Thermometer OK  ");
+	lcd.goTo(0, 0);
+	printSerialNumber(lcd);
+	lcd.goTo(1, 0);
+	printTemperature(lcd);
 }
 
 /**

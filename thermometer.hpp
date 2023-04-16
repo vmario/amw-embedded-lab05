@@ -14,9 +14,14 @@
  * Unikalny identyfikator termometru.
  */
 struct RomCode {
-	uint8_t familyCode; ///< Kod rodziny DS18B20 (0x28).
-	uint8_t serialNumber[6]; ///< Numer seryjny.
-	uint8_t crc; ///< Suma kontrolna.
+	/**
+	 * Tablica bajtów:
+	 * 
+	 * - 0 — Numer rodziny (0x28).
+	 * - 1…6 — Numer seryjny.
+	 * - 7 — CRC.
+	 */
+	uint8_t bytes[8];
 };
 
 /**
@@ -36,4 +41,11 @@ struct Thermometer {
 	 * @return Odczytana ramka identyfikatora.
 	 */
 	RomCode romCode() const;
+
+	/**
+	 * Odczytuje temperaturę.
+	 * 
+	 * @return Odczytana temperatura.
+	 */
+	uint16_t temperature() const;
 };
