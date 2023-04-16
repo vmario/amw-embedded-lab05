@@ -12,5 +12,19 @@
 
 bool Thermometer::reset() const
 {
-	return Wire1{}.reset();
+	const Wire1 bus{};
+
+	return bus.reset();
+}
+
+RomCode Thermometer::romCode() const
+{
+	RomCode romCode = { { 0 } };
+
+	return romCode;
+}
+
+double Thermometer::temperature() const
+{
+	return 0;
 }
