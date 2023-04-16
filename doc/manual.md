@@ -8,6 +8,7 @@ titlepage-logo: "logo.jpg"
 colorlinks: yes
 header-includes: |
   \usepackage{awesomebox}
+  \usepackage{gensymb}
 ...
 
 > When you finally understand what you are doing, things will go right.
@@ -41,13 +42,13 @@ Celem ćwiczenia jest zapoznanie się z:
 
 ## Modyfikacja programu
 
-Uzupełnij metodę `romCode()` klasy `Thermometer`. W tym celu odczytaj z dokumentacji termometru kod rozkazu _Read ROM_, który pobiera z urządzenia _slave_, podłączonego do magistrali, jego numer seryjny. Wyślij ten rozkaz za pomocą metody `writeByte()` klasy `Wire1`, odczytaj 8 bajtów za pomocą metody `readByte()` i zwróć je w postaci struktury `RomCode`.
+Uzupełnij metodę `romCode()` klasy `Thermometer`. W tym celu odczytaj z dokumentacji termometru kod rozkazu _Read ROM_, który pobiera numer seryjny z urządzenia _slave_, podłączonego do magistrali. Wyślij ten rozkaz za pomocą metody `writeByte()` klasy `Wire1`, odczytaj 8 bajtów za pomocą metody `readByte()` i zwróć je w postaci struktury `RomCode`.
 
-\awesomebox[teal]{2pt}{\faCode}{teal}{Zwróć uwagę, że struktura \lstinline{RomCode} zawiera tylko jedno pole \lstinline{bytes}, które jest tablicą o rozmiarze 8 bajtów. Jest to metoda w językach C i C++ na z}
-
-Zwróć uwagę, że identyfikator termometru powinien zaczynać się od bajtu `0x28`.
+\awesomebox[teal]{2pt}{\faCode}{teal}{Zwróć uwagę, że struktura \lstinline{RomCode} zawiera tylko jedno pole \lstinline{bytes}, które jest tablicą o rozmiarze 8 bajtów. Jest to sposób w języku C na zdefiniowanie tablicy o określonym rozmiarze. Wprawdzie język C++ przewiduje typ \lstinline{std::array}, ale nie jest on zaimplementowany w używanym przez nas kompilatorze AVR-GCC ze względu na liczne uproszczenia, umożliwiającego uruchamianie programów na mikrokontrolerach AVR.}
 
 \awesomebox[violet]{2pt}{\faBook}{violet}{Dokumentację termometru DS18B20 znajdź samodzielnie w Internecie. Producentem tego układu scalonego pierwotnie była firma Dallas, obecnie przejęta przez Maxim Integrated.}
+
+\awesomebox[violet]{2pt}{\faBook}{violet}{Identyfikator termometru powinien zaczynać się od bajtu \lstinline{0x28} (tzw. \textit{family code}).}
 
 # Zadanie rozszerzone
 
@@ -57,4 +58,8 @@ Zwróć uwagę, że identyfikator termometru powinien zaczynać się od bajtu `0
 
 ## Modyfikacja programu
 
-Uzupełnij metodę `temperature()` klasy `Thermometer`.
+Uzupełnij metodę `temperature()` klasy `Thermometer`. Możesz wykorzystać tryb `Skip Rom`, który umożliwia pominięcie adresowania urządzenia _slave_, jeżeli jest ono jedynym takim urządzeniem na magistrali. Odczytu dokonaj za pomocą komendy `Read Scratchpad`. Pamiętaj o komendzie `Convert T`, która uruchamia proces pomiaru.
+
+\awesomebox[purple]{2pt}{\faMicrochip}{purple}{Ze względu na oszczędność energii, termometr DS18B20 dokonuje pomiaru (w dokumentacji proces ten jest nazwany \textit{temperature conversion}) tylko na żądanie. Przy domyślnej rozdzielczości 12 bitów pomiar trwa 750{ }ms. Ponieważ aktualizację temperatury na wyświetlaczu dokonujemy co 1{ }s, możemy w danym cyklu odczytać wynik poprzedniego pomiaru i zlecić wykonanie następnego.}
+
+\awesomebox[violet]{2pt}{\faBook}{violet}{Rejestry pomiarowe domyślnie (przed wykonaniem pierwszego pomiaru) zawierają wartość 85 \degree C.}
