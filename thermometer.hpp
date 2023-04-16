@@ -47,5 +47,5 @@ struct Thermometer {
 	 * 
 	 * @return Odczytana temperatura.
 	 */
-	uint16_t temperature() const;
+	double temperature() const;
 };

@@ -45,7 +45,7 @@ static void printSerialNumber(const Lcd& lcd)
 static void printTemperature(const Lcd& lcd)
 {
 	char buffer[17];
-	snprintf(buffer, sizeof(buffer), "T=%6.2f", 1.0 * Thermometer{}.temperature() / 16);
+	snprintf(buffer, sizeof(buffer), "T=%6.2f", Thermometer{}.temperature());
 	lcd.write(buffer);
 }
 
